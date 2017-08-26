@@ -30,7 +30,7 @@ REM // ======== Parameter parsing ======== //
 
       if "%1"=="" goto:parameterContinue
 
-      if "%1" == "-g" (
+      if "%1" == "--glslang" (
          set arg-do-glslang=1
          set arg-use-implicit-component-list=0
          echo Building glslang ^(%1^)
@@ -38,7 +38,7 @@ REM // ======== Parameter parsing ======== //
          goto:parameterLoop
       )
 
-      if "%1" == "--glslang" (
+      if "%1" == "-g" (
          set arg-do-glslang=1
          set arg-use-implicit-component-list=0
          echo Building glslang ^(%1^)
@@ -58,6 +58,15 @@ REM // ======== Parameter parsing ======== //
          set arg-do-spirv-tools=1
          set arg-use-implicit-component-list=0
          echo Building spirv-tools ^(%1^)
+         shift
+         goto:parameterLoop
+      )
+
+      if "%1" == "--all" (
+         set arg-do-glslang=1
+         set arg-do-spirv-tools=1
+         set arg-use-implicit-component-list=0
+         echo Building glslang, spirv-tools ^(%1^)
          shift
          goto:parameterLoop
       )
@@ -84,6 +93,7 @@ REM // ======== Parameter parsing ======== //
       echo   Available options:
       echo     -g ^| --glslang      enable glslang component
       echo     -s ^| --spirv-tools  enable spirv-tools component
+      echo     --all               enable all components
       echo     --no-sync           skip sync from git
       echo     --no-build          skip build
       echo.
